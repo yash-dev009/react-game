@@ -6,17 +6,24 @@ import Footer from "./component/Footer";
 // import Rock from "/assets/Rock.png";
 // import Scissors from "/assets/Scissors.png";
 // import Video from "/assets/video.gif"; 
-import Modal from 'react-modal'
+// import Modal from 'react-modal'
 import Header from "./component/header";
+import ConfettiExplosion from 'confetti-explosion-react';
+// import useWindowSize from 'react-use/useWindowSize'
+// import Confetti from 'react-confetti'
+
+
 
 const Gamepage = () => {
   const [playerHand, setPlayerHand] = useState(null);
   const [computerHand, setComputerHand] = useState(null);
   const [result, setResult] = useState(null);
   const [counter, setCounter] = useState(15);
-  const [modalRockIsOpen, setRockIsOpen] = React.useState(false);
-  const [modalPaperIsOpen, setPaperIsOpen] = React.useState(false);
-  const [modalScissorsIsOpen, setScissorsIsOpen] = React.useState(false);
+  const [isExploding, setIsExploding] = React.useState(false);
+  // const { width, height } = useWindowSize()
+  // const [modalRockIsOpen, setRockIsOpen] = React.useState(false);
+  // const [modalPaperIsOpen, setPaperIsOpen] = React.useState(false);
+  // const [modalScissorsIsOpen, setScissorsIsOpen] = React.useState(false);
 
 
 console.log(playerHand,"playerHand");
@@ -28,9 +35,10 @@ console.log(playerHand,"playerHand");
     setResult(getResult(hand, computerSelection));
   };
 
- 
-  let timer;
+
+ let timer;
  useEffect(() => {
+
   timer = counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
    return ()=>clearInterval(timer);
  }, [counter])
@@ -50,24 +58,36 @@ console.log(playerHand,"playerHand");
       (player === "Paper" && computer === "Rock") ||
       (player === "Scissors" && computer === "Paper")
     ) {
-      return "You win!🤩🥳";
-    } else {
-      return "You lose!😥";
+       return "You win!🤩🥳" , isExploding(true)
+      //  , {isExploding && <ConfettiExplosion />})
+    //   <Confetti
+    //   width={width}
+    //   height={height}
+    // />)
+
+    } 
+    else{
+      return "You lose!😥"
     }
   };
-  const modalResult = (player, computer) => {
-    if (player === computer) {
-      return "Tie!🤷‍♂️🤷‍♂️";
-    } else if (
-      (player === "Rock" && computer === "Scissors") ||
-      (player === "Paper" && computer === "Rock") ||
-      (player === "Scissors" && computer === "Paper")
-    ) {
-      return "You win!🤩🥳";
-    } else {
-      return "You lose!😥";
-    }
-  };
+
+
+ 
+  
+    
+  // const modalResult = (player, computer) => {
+  //   if (player === computer) {
+  //     return "Tie!🤷‍♂️🤷‍♂️";
+  //   } else if (
+  //     (player === "Rock" && computer === "Scissors") ||
+  //     (player === "Paper" && computer === "Rock") ||
+  //     (player === "Scissors" && computer === "Paper")
+  //   ) {
+  //     return "You win!🤩🥳";
+  //   } else {
+  //     return "You lose!😥";
+  //   }
+  // };
 
 
 //   function PlayerImageShow(hand){
@@ -97,7 +117,11 @@ console.log(playerHand,"playerHand");
 //       return Video
 //     }
 //   }
- 
+  const gamelose =()=>{
+    if(counter===0){
+     getResult("You lose!😥")
+    }
+  }
 
   const Restart =()=>{
 setCounter(15)
@@ -105,27 +129,31 @@ setPlayerHand("")
 setComputerHand("")
 setResult("")
   }
-  let subtitle;
-  const customStyles = {
-    content: {
-      top: '50%',left: '50%', right: 'auto',   bottom: 'auto', marginRight: '-50%', transform: 'translate(-50%, -50%)'
-    },
-     
-  };
-  function openModalR() {
-    setRockIsOpen(true);
-  }
-  function openModalP() {
-    setPaperIsOpen(true);
-  }
-  function openModalS() {
-    setScissorsIsOpen(true);
-  }
 
-  function afterOpenModal() {
-    // references are now sync'd and can be accessed.
-    subtitle.style.color = '#f00';
-  }
+  //***************modals */
+
+
+  // let subtitle;
+  // const customStyles = {
+  //   content: {
+  //     top: '50%',left: '50%', right: 'auto',   bottom: 'auto', marginRight: '-50%', transform: 'translate(-50%, -50%)'
+  //   },
+     
+  // };
+  // function openModalR() {
+  //   setRockIsOpen(true);
+  // }
+  // function openModalP() {
+  //   setPaperIsOpen(true);
+  // }
+  // function openModalS() {
+  //   setScissorsIsOpen(true);
+  // }
+
+  // function afterOpenModal() {
+   
+  //   subtitle.style.color = '#f00';
+  // }
  
   return (
     <div>
@@ -141,11 +169,11 @@ setResult("")
          {/* <img className="video1" src={playerHand ? playerHand == "Rock" ? Rock : playerHand == "Scissors" ? Scissors : playerHand == "Paper" ? Paper : Video : Video} alt=""/>  
         <img className="video2" src={computerHand ? computerHand == "Rock" ? Rock : computerHand == "Scissors" ? Scissors : computerHand == "Paper" ? Paper : Video : Video} alt="" /> */}
       </div>
-      <div className="countdown"> Timer :{counter} </div> 
+      <div className="countdown"> Timer :{gamelose && counter} </div> 
 
       <div style={{ margin:"auto" }}>
         {" "}
-        <p className="result">{result}</p>{" "}
+        <p className="result">{isExploding? ConfettiExplosion:result}</p>{" "}
       </div>
       <p
         style={{
@@ -164,23 +192,23 @@ setResult("")
             src={`/assets/Rock.png`}
             alt=""
          
-            onMouseDown={() => handlePlayerSelection("Rock")}
-            onClick={openModalR}
+            onClick={() => handlePlayerSelection("Rock")}
+            // onClick={openModalR}
           />
           <img
             className="game-img"
             src={`/assets/Paper.png`}
             alt=""
-            onMouseDown={() => handlePlayerSelection("Paper")}
-            onClick={openModalP}
+            onClick={() => handlePlayerSelection("Paper")}
+            // onClick={openModalP}
           />
           
           <img
             className="game-img"
             src={`/assets/Scissors.png`}
             alt=""
-            onMouseDown={()=>handlePlayerSelection("Scissors")}
-            onClick={openModalS}
+            onClick={()=>handlePlayerSelection("Scissors")}
+            // onClick={openModalS}
           />
       </div>
       <div style={{justifyContent:"center",textAlign:"center"}}>
@@ -191,7 +219,7 @@ setResult("")
         <p className="para-player">Opponent choosed:{computerHand}</p>
       </div>
   
-      <Modal
+      {/* <Modal
         isOpen={modalRockIsOpen}
         onAfterOpen={afterOpenModal}
         onRequestClose={()=> setRockIsOpen(false)}
@@ -221,10 +249,10 @@ setResult("")
       >
         <h2 ref={(_subtitle) => (subtitle = _subtitle)}>Tie!</h2>
         <div>Tie!</div>
-        <button onClick={()=> setScissorsIsOpen(false)}>close</button>
+       
    
       </Modal>
-      
+       */}
       <Footer />
     </div>
   );

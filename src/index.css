@@ -1,6 +1,6 @@
 body{
-  height: 100%;
-  width: 100%;
+  height: 100vh;
+  width:auto;
   font-family: cursive;
   background: linear-gradient(90deg,  #fac24a, rgb(196, 245, 122)); 
 }
@@ -117,12 +117,13 @@ margin: 4px;
  
 }
 .countdown{
-  text-align: center;
+
   margin: auto;
   justify-content: center;font-family:cursive;
   font-size:xx-large;
   font-weight: 500;
   color: rgb(128, 62, 55);
+  text-align: center;
  
   
  }
