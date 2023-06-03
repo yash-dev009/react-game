@@ -58,7 +58,7 @@ console.log(playerHand,"playerHand");
       (player === "Paper" && computer === "Rock") ||
       (player === "Scissors" && computer === "Paper")
     ) {
-       return "You win!🤩🥳" , isExploding(true)
+       return "You win!🤩🥳" 
       //  , {isExploding && <ConfettiExplosion />})
     //   <Confetti
     //   width={width}
