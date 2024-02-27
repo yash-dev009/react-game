@@ -19,9 +19,12 @@ const Gamepage = () => {
   const [computerHand, setComputerHand] = useState(null);
   const [result, setResult] = useState(null);
   const [counter, setCounter] = useState(15);
-  const [isExploding, setIsExploding] = useState(false);
+  const [isExploding, setIsExploding] = React.useState(false);
+  // const { width, height } = useWindowSize()
+  // const [modalRockIsOpen, setRockIsOpen] = React.useState(false);
+  // const [modalPaperIsOpen, setPaperIsOpen] = React.useState(false);
+  // const [modalScissorsIsOpen, setScissorsIsOpen] = React.useState(false);
 
-console.log(result,"result");
   let timer;
 
 console.log(playerHand,"playerHand");
@@ -35,16 +38,15 @@ console.log(playerHand,"playerHand");
     setResult(getResult(hand, computerSelection));
   };
 
+
+
+
  useEffect(() => {
   timer = counter > 0 && setInterval(() => setCounter(counter - 1), 1000);
-
-   if(counter == 0){
-    setComputerHand("Rock")
-    setPlayerHand("Rock")
-   }
-
    return ()=>clearInterval(timer);
-
+   if(counter==0){
+    
+   }
  }, [counter])
  
 
@@ -179,11 +181,18 @@ setResult("")
         Rock, Paper, Scissors Game
       </h1>
 <div className="video-main">
-<img className="video1" src={playerHand ? `/assets/${playerHand}.png` : `/assets/video.gif`} alt=""/>   
-
-
-       <img className="video2" src={computerHand ? `/assets/${computerHand}.png` : `/assets/video.gif`} alt="" />
-       
+{ counter==0 ?<img
+            className="video1"
+            src={`/assets/Rock.png`}
+            alt=""/>:<img className="video1" src={playerHand ? `/assets/${playerHand}.png` : `/assets/video.gif`} alt=""/> }  
+       { counter==0 ?  <img
+            className="video2"
+            src={`/assets/Rock.png`}
+            alt=""/>: <img className="video2" src={computerHand ? `/assets/${computerHand}.png` : `/assets/video.gif`} alt="" />}
+         {/* <img className="video1" src={PlayerImageShow(playerHand)} alt=""/>  
+        <img className="video2" src={PlayerImageShow(computerHand)} alt="" /> */}
+         {/* <img className="video1" src={playerHand ? playerHand == "Rock" ? Rock : playerHand == "Scissors" ? Scissors : playerHand == "Paper" ? Paper : Video : Video} alt=""/>  
+        <img className="video2" src={computerHand ? computerHand == "Rock" ? Rock : computerHand == "Scissors" ? Scissors : computerHand == "Paper" ? Paper : Video : Video} alt="" /> */}
       </div>
       <div className="countdown"> Timer :{counter} </div> 
 
@@ -191,7 +200,7 @@ setResult("")
         {" "}
         <p className="result">{result}</p>{" "}
       </div>
-     {(counter>0 && !result ) && <p
+      <p
         style={{
           textAlign: "center",
           fontSize: "1.2rem",
@@ -200,7 +209,7 @@ setResult("")
         }}
       >
         Choose anyone,out of these three in this specified time.
-      </p>}
+      </p>
       {counter===0 && <p  style={{
           textAlign: "center",
           fontSize: "1.2rem",
@@ -209,7 +218,7 @@ setResult("")
         }}>you haven't choose</p>}
 
 
-      { (counter>0 && !result ) && <div style={{ textAlign: "center", justifyContent:"center"}}>
+      { counter>1 &&<div style={{ textAlign: "center", justifyContent:"center"}}>
 
           <img
             className="game-img"
@@ -235,13 +244,13 @@ setResult("")
             // onClick={openModalS}
           />
       </div>}
-      {(counter==0 || result ) ? <div style={{justifyContent:"center",textAlign:"center"}}>
+      {counter==0 ?<div style={{justifyContent:"center",textAlign:"center"}}>
         <button className="round-change" type="button" onClick={Restart}>Restart</button></div>:null}
 
-   {counter == 0 ? null : (playerHand || computerHand)  && <div className="game-div-main">
+      <div className="game-div-main">
         <p className="para-player" >You choosed:{playerHand}</p>
         <p className="para-player">Opponent choosed:{computerHand}</p>
-      </div>}
+      </div>
   
       {/* <Modal
         isOpen={modalRockIsOpen}
